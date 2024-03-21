@@ -19,8 +19,14 @@ import br.com.GarageMaster.logica.funcionario.DeleteFuncionario;
 import br.com.GarageMaster.logica.funcionario.EditFuncionario;
 import br.com.GarageMaster.logica.funcionario.FindAllFuncionarios;
 import br.com.GarageMaster.logica.funcionario.FindFuncionario;
+import br.com.GarageMaster.logica.veiculo.ClientsOfVeiculos;
+import br.com.GarageMaster.logica.veiculo.CreatedVeiculo;
+import br.com.GarageMaster.logica.veiculo.DeleteVeiculo;
+import br.com.GarageMaster.logica.veiculo.EditVeiculo;
+import br.com.GarageMaster.logica.veiculo.FindAllVeiculos;
+import br.com.GarageMaster.logica.veiculo.FindVeiculo;
 
-@WebServlet( urlPatterns = {"/Controller", "/authenticationFilter", "/client", "/funcionario", "/addClient", "/addFuncionario", "/selectClient", "/updateClient", "/selectFuncionario", "/updateFuncionario", "/deleteClient", "/deleteFuncionario"})
+@WebServlet( urlPatterns = {"/Controller", "/authenticationFilter", "/client", "/funcionario", "/veiculo","/clientsVeiculo" ,"/addClient", "/addFuncionario", "/addVeiculo", "/selectClient", "/updateClient", "/selectFuncionario", "/updateFuncionario", "/selectVeiculo", "/updateVeiculo", "/deleteClient", "/deleteFuncionario", "/deleteVeiculo"})
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
@@ -38,11 +44,20 @@ public class Controller extends HttpServlet {
 		else if (action.equals("/funcionario")) {
 			funcionarioPage(request, response);
 		}
+		else if (action.equals("/veiculo")) {
+			veiculoPage(request, response);
+		}
+		else if (action.equals("/clientsVeiculo")) {
+			veiculoOfClients(request, response);
+		}
 		else if (action.equals("/selectClient")) {
 			findClient(request, response);
 		}
 		else if (action.equals("/selectFuncionario")) {
 			findFuncionario(request, response);
+		}
+		else if (action.equals("/selectVeiculo")) {
+			findVeiculo(request, response);
 		}
 		else if (action.equals("/updateClient")) {
 			updateClient(request, response);
@@ -50,11 +65,17 @@ public class Controller extends HttpServlet {
 		else if (action.equals("/updateFuncionario")) {
 			updateFuncionario(request, response);
 		}
+		else if (action.equals("/updateVeiculo")) {
+			updateVeiculo(request, response);
+		}
 		else if (action.equals("/deleteClient")) {
 			deleteClient(request, response);
 		}
 		else if (action.equals("/deleteFuncionario")) {
 			deleteFuncionario(request, response);
+		}
+		else if (action.equals("/deleteVeiculo")) {
+			deleteVeiculo(request, response);
 		}
 	}
 
@@ -64,6 +85,8 @@ public class Controller extends HttpServlet {
 	        newClient(request, response);
 	    }else if(action.equals("/addFuncionario")) {
 	    	newFuncionario(request, response);
+	    }else if(action.equals("/addVeiculo")) {
+	    	newVeiculo(request, response);
 	    }
 		if (action.equals("/authenticationFilter")) {
 	        authenticateUser(request, response);
@@ -205,4 +228,78 @@ public class Controller extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	//Páginas e métodos de veiculo
+	protected void veiculoPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FindAllVeiculos findAllVeiculos = new FindAllVeiculos();
+		
+		try {
+			findAllVeiculos.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+	
+	//Listando os donos de veiculos
+	protected void veiculoOfClients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ClientsOfVeiculos clients = new ClientsOfVeiculos();
+		
+		try {
+			clients.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Metódo para adicionar um novo veiculo
+	protected void newVeiculo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CreatedVeiculo newVeiculo = new CreatedVeiculo();
+		
+		try {
+			newVeiculo.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Pesquisar um veiculo:
+	protected void findVeiculo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FindVeiculo findVeiculo = new FindVeiculo();
+		
+		try {
+			findVeiculo.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Editando um veiculo
+	protected void updateVeiculo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EditVeiculo editVeiculo = new EditVeiculo();
+		
+		try {
+			editVeiculo.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Deletando um veiculo
+	protected void deleteVeiculo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DeleteVeiculo deleteVeiculo = new DeleteVeiculo();
+		
+		try {
+			deleteVeiculo.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
