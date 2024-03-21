@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.GarageMaster.dao.FuncionarioDAO;
 import br.com.GarageMaster.entities.Funcionario;
-import br.com.GarageMaster.logica.Logica;
+import br.com.GarageMaster.logica.LogicaRedirectJsp;
 
-public class FindAllFuncionarios implements Logica {
+public class FindAllFuncionarios implements LogicaRedirectJsp {
 
 	@Override
-	public void executa(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public void executa(HttpServletRequest req, HttpServletResponse res, String redirect) throws Exception {
 		//Criando instãncia de dao
 		FuncionarioDAO dao = null;
 		
@@ -29,7 +29,7 @@ public class FindAllFuncionarios implements Logica {
 		req.setAttribute("funcionarios", funcionarios); //Setando como atributo
 		
 		//Redirecionando para a página de clients
-		RequestDispatcher rd = req.getRequestDispatcher("funcionarioPage.jsp");
+		RequestDispatcher rd = req.getRequestDispatcher(redirect);
 		rd.forward(req, res);
 	}
 

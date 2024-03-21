@@ -19,14 +19,18 @@ import br.com.GarageMaster.logica.funcionario.DeleteFuncionario;
 import br.com.GarageMaster.logica.funcionario.EditFuncionario;
 import br.com.GarageMaster.logica.funcionario.FindAllFuncionarios;
 import br.com.GarageMaster.logica.funcionario.FindFuncionario;
-import br.com.GarageMaster.logica.veiculo.ClientsOfVeiculos;
+import br.com.GarageMaster.logica.peca.CreatedPeca;
+import br.com.GarageMaster.logica.peca.DeletePeca;
+import br.com.GarageMaster.logica.peca.EditPeca;
+import br.com.GarageMaster.logica.peca.FindAllPecas;
+import br.com.GarageMaster.logica.peca.FindPeca;
 import br.com.GarageMaster.logica.veiculo.CreatedVeiculo;
 import br.com.GarageMaster.logica.veiculo.DeleteVeiculo;
 import br.com.GarageMaster.logica.veiculo.EditVeiculo;
 import br.com.GarageMaster.logica.veiculo.FindAllVeiculos;
 import br.com.GarageMaster.logica.veiculo.FindVeiculo;
 
-@WebServlet( urlPatterns = {"/Controller", "/authenticationFilter", "/client", "/funcionario", "/veiculo","/clientsVeiculo" ,"/addClient", "/addFuncionario", "/addVeiculo", "/selectClient", "/updateClient", "/selectFuncionario", "/updateFuncionario", "/selectVeiculo", "/updateVeiculo", "/deleteClient", "/deleteFuncionario", "/deleteVeiculo"})
+@WebServlet( urlPatterns = {"/Controller", "/authenticationFilter", "/client", "/funcionario", "/veiculo", "/peca", "/clientsVeiculo", "/addClient", "/addFuncionario", "/addVeiculo", "/addPeca", "/selectClient", "/updateClient", "/selectFuncionario", "/updateFuncionario", "/selectVeiculo", "/updateVeiculo", "/selectPeca", "/updatePeca", "/deleteClient", "/deleteFuncionario", "/deleteVeiculo", "/deletePeca"})
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
@@ -47,6 +51,9 @@ public class Controller extends HttpServlet {
 		else if (action.equals("/veiculo")) {
 			veiculoPage(request, response);
 		}
+		else if (action.equals("/peca")) {
+			pecaPage(request, response);
+		}
 		else if (action.equals("/clientsVeiculo")) {
 			veiculoOfClients(request, response);
 		}
@@ -59,6 +66,9 @@ public class Controller extends HttpServlet {
 		else if (action.equals("/selectVeiculo")) {
 			findVeiculo(request, response);
 		}
+		else if (action.equals("/selectPeca")) {
+			findPeca(request, response);
+		}
 		else if (action.equals("/updateClient")) {
 			updateClient(request, response);
 		}
@@ -68,6 +78,9 @@ public class Controller extends HttpServlet {
 		else if (action.equals("/updateVeiculo")) {
 			updateVeiculo(request, response);
 		}
+		else if (action.equals("/updatePeca")) {
+			updatePeca(request, response);
+		}
 		else if (action.equals("/deleteClient")) {
 			deleteClient(request, response);
 		}
@@ -76,6 +89,9 @@ public class Controller extends HttpServlet {
 		}
 		else if (action.equals("/deleteVeiculo")) {
 			deleteVeiculo(request, response);
+		}
+		else if (action.equals("/deletePeca")) {
+			deletePeca(request, response);
 		}
 	}
 
@@ -87,6 +103,9 @@ public class Controller extends HttpServlet {
 	    	newFuncionario(request, response);
 	    }else if(action.equals("/addVeiculo")) {
 	    	newVeiculo(request, response);
+	    }
+	    else if(action.equals("/addPeca")) {
+	    	newPeca(request, response);
 	    }
 		if (action.equals("/authenticationFilter")) {
 	        authenticateUser(request, response);
@@ -112,7 +131,7 @@ public class Controller extends HttpServlet {
 		FindAllClients findAllClients = new FindAllClients();
 		
 		try {
-			findAllClients.executa(request, response);
+			findAllClients.executa(request, response, "clientsPage.jsp");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -174,7 +193,7 @@ public class Controller extends HttpServlet {
 		FindAllFuncionarios findAllFuncionatios = new FindAllFuncionarios();
 		
 		try {
-			findAllFuncionatios.executa(request, response);
+			findAllFuncionatios.executa(request, response, "funcionarioPage.jsp");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,10 +263,10 @@ public class Controller extends HttpServlet {
 	
 	//Listando os donos de veiculos
 	protected void veiculoOfClients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ClientsOfVeiculos clients = new ClientsOfVeiculos();
+		FindAllClients findAllClients = new FindAllClients();
 		
 		try {
-			clients.executa(request, response);
+			findAllClients.executa(request, response, "addVeiculo.jsp");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -302,4 +321,65 @@ public class Controller extends HttpServlet {
 		}
 	}
 
+	
+	//Métodos de Peças
+	//Listar peças
+	protected void pecaPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FindAllPecas findAllPecas = new FindAllPecas();
+		
+		try {
+			findAllPecas.executa(request, response, "pecaPage.jsp");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Criar peça
+	protected void newPeca(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CreatedPeca newPeca = new CreatedPeca();
+		
+		try {
+			newPeca.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Listar dados de uma peca
+	protected void findPeca(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		FindPeca findPeca = new FindPeca();
+		
+		try {
+			findPeca.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Editando uma peca
+	protected void updatePeca(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EditPeca editPeca = new EditPeca();
+		
+		try {
+			editPeca.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//Deletando uma peca
+	protected void deletePeca(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DeletePeca peca = new DeletePeca();
+		
+		try {
+			peca.executa(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
