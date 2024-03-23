@@ -179,7 +179,7 @@ public class ServiceDAO {
 				throw new RuntimeException(e);
 			}
 		} else {
-			System.out.println("Veiculo não existe ou não encontrado");
+			System.out.println("Serviço não existe ou não encontrado");
 		}
 	}
 }

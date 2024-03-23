@@ -27,15 +27,15 @@
 	    transform: translate(-50%, -50%);
 	    padding:10px;   
 	    display: flex;
-	    flex-direction: column;
-	    align-items: center;
-	    justify-content: space-between;
+	    gap:10px;
+	    align-items: flex-start;
 	}
 	.main h1{
-		font-size: 50px;
+		font-size: 30px;
+		text-align: center;
 	}
 	.main form{
-		width: 100%;
+		width: 60%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -64,67 +64,86 @@
 	    cursor: pointer;
 	}
 	#tableContainer {
-	margin-top: 30px;
-	overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
-	max-height: 400px;
-	/* Altura máxima da tabela antes da barra de rolagem aparecer */
-}
-
-#tabela {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-#tabela th {
-	border: 1px solid #ddd;
-	padding: 10px;
-	text-align: left;
-	background-color: blue;
-	color: #fff;
-}
-
-#tabela td {
-	border: 1px solid #ddd;
-	padding: 10px;
-	text-align: left;
-}
-#tabela td span{
-	color: #000;
-	font-weight: bold;
-}
-
-button {
-	background-color: blue;
-	color: #fff;
-	width: 110px;
-	height: 40px;
-	border: none;
-	border-radius: 10px;
-	transition: all 0.5s;
-	font-weight: 530;
-	cursor: pointer;
-}
-.product{
-	background-color: #fff;
-	color: blue;
-	width: 110px;
-	height: 40px;
-	border: 2px solid blue;
-	border-radius: 10px;
-	transition: all 0.5s;
-	font-weight: 530;
-	cursor: pointer;
-}
-
-.remover {
-	background-color: red;
-}
+		overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+		max-height: 400px;
+		width: 850px;
+		/* Altura máxima da tabela antes da barra de rolagem aparecer */
+	}
+	
+	#container{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 500px;
+		width: 850px;
+	}
+	#container p{
+		margin-top:30px;
+		text-align: center;
+	}
+	#container img{
+		width: 300px;
+	}
+	#container a{
+		margin-top: 40px;
+		text-align: center;
+	}
+	
+	#tabela {
+		border-collapse: collapse;
+		width: 100%;
+	}
+	
+	#tabela th {
+		border: 1px solid #ddd;
+		padding: 10px;
+		text-align: left;
+		background-color: blue;
+		color: #fff;
+	}
+	
+	#tabela td {
+		border: 1px solid #ddd;
+		padding: 10px;
+		text-align: left;
+	}
+	#tabela td span{
+		color: #000;
+		font-weight: bold;
+	}
+	
+	button {
+		background-color: blue;
+		color: #fff;
+		width: 110px;
+		height: 40px;
+		border: none;
+		border-radius: 10px;
+		transition: all 0.5s;
+		font-weight: 530;
+		cursor: pointer;
+	}
+	.product{
+		background-color: #fff;
+		color: blue;
+		width: 110px;
+		height: 40px;
+		border: 2px solid blue;
+		border-radius: 10px;
+		transition: all 0.5s;
+		font-weight: 530;
+		cursor: pointer;
+	}
+	
+	.remover {
+		background-color: red;
+	}
 </style>
 
 <body>
 	<div class="main">
-		<h1>Editando um serviço</h1>
 		<form name="formAddService" action="updateService">
+			<h1>Editando um serviço</h1>
 			<input type="text" name="id" readonly="readonly" value="<% out.print(request.getAttribute("id"));%>"/><br />
 			<input type="text" name="idVeiculo" readonly="readonly" value="<% out.print(request.getAttribute("idVeiculo"));%>"/><br />
 			<input type="text" name="idFuncionario" readonly="readonly" value="<% out.print(request.getAttribute("idFuncionario"));%>"/><br />
@@ -135,6 +154,7 @@ button {
 		</form>
 			<% if(listaPeca.size() > 0) {%>
 			<div id="tableContainer">
+			<h1>Peças solicitadas</h1>
 			<table id="tabela">
 				<thead>
 					<tr>
@@ -162,7 +182,13 @@ button {
 				</tbody>
 			</table>
 		</div>
-		<% }%>
+		<% }else{%>
+			<div id="container">
+				<h1>Não há peças adicionadas</h1>
+				<p><img src="./images/pecas.png"/></p>
+				<a href="relationService?idService=<%=request.getAttribute("id")%>"><button class="product">Produtos</button></a>
+			</div>			
+		<%} %>
 	</div>
 </body>
 <script src="./scripts/validatorService.js"></script>

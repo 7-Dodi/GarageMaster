@@ -1,0 +1,210 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import="br.com.GarageMaster.entities.RelationWithPeca" %>
+<%@ page import ="java.util.List"%>
+<%
+	List<RelationWithPeca> listaPeca = (List<RelationWithPeca>) request.getAttribute("listaPeca");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Garage Master</title>
+<link rel="icon" href="./images/carro.png" type="image/png">
+</head>
+
+<style>
+	*{
+		margin: 0;
+		box-sizing: border-box;
+		font-family: system-ui;
+	}
+	
+	.main {
+	    position: fixed;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    padding:10px;   
+	    display: flex;
+	    gap:10px;
+	    align-items: flex-start;
+	}
+	.main h1{
+		font-size: 30px;
+		text-align: center;
+	}
+	.main form{
+		width: 60%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.main input{
+		width: 400px;
+	    height: 35px;
+	    margin-bottom: 5px;
+	    border-radius: 5px;
+	    border: 1px solid #21E;
+	    padding: 5px;
+	    font-size: 14px;
+	    cursor: pointer;
+	}
+	
+	#finalizar {
+	    background-color: blue;
+	    color: #fff;
+	    width: 110px;
+	    height: 40px;
+	    border: none;
+	    border-radius: 10px;
+	    transition: all 0.5s;
+	    font-weight: 530;
+	    cursor: pointer;
+	}
+	#tableContainer {
+	overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+	max-height: 400px;
+	width: 850px;
+	/* Altura máxima da tabela antes da barra de rolagem aparecer */
+	}
+	
+	#container{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 500px;
+		width: 850px;
+	}
+	#container p{
+		margin-top:30px;
+		text-align: center;
+	}
+	#container img{
+		width: 300px;
+	}
+	#container a{
+		margin-top: 40px;
+		text-align: center;
+	}
+	
+	#tabela {
+		border-collapse: collapse;
+		width: 100%;
+	}
+	
+	#tabela th {
+		border: 1px solid #ddd;
+		padding: 10px;
+		text-align: left;
+		background-color: blue;
+		color: #fff;
+	}
+	
+	#tabela td {
+		border: 1px solid #ddd;
+		padding: 10px;
+		text-align: left;
+	}
+	#tabela td span{
+		color: #000;
+		font-weight: bold;
+	}
+	
+	button {
+		background-color: blue;
+		color: #fff;
+		width: 110px;
+		height: 40px;
+		border: none;
+		border-radius: 10px;
+		transition: all 0.5s;
+		font-weight: 530;
+		cursor: pointer;
+	}
+	.product{
+		background-color: #fff;
+		color: blue;
+		width: 110px;
+		height: 40px;
+		border: 2px solid blue;
+		border-radius: 10px;
+		transition: all 0.5s;
+		font-weight: 530;
+		cursor: pointer;
+	}
+	
+	.remover {
+		background-color: red;
+	}
+	
+	label{
+		font-size: 12px;
+    	align-self: baseline;
+    	margin-left: 50px;
+	}
+</style>
+
+<body>
+	<div class="main">
+		<form name="formAddVenda" action="updateVenda">
+			<h1>Editando a venda</h1>
+			<input type="text" name="id" readonly="readonly" value="<% out.print(request.getAttribute("id"));%>"/><br />
+			<input type="text" name="idCliente" readonly="readonly" value="<% out.print(request.getAttribute("idCliente"));%>"/><br />
+			<input type="text" name="idFuncionario" readonly="readonly" value="<% out.print(request.getAttribute("idFuncionario"));%>"/><br />
+			<input type="text" name="data" readonly="readonly" value="<% out.print(request.getAttribute("data"));%>"/><br />
+			<input type="text" name="finalizacao" value="<% out.print(request.getAttribute("finalizacao"));%>"/><br />
+			<input type="text" name="valor" value="<% out.print(request.getAttribute("valor"));%>"/><br />  
+			<input id="finalizar" type="button" value="Salvar"/>
+		</form>
+			<% if(listaPeca.size() > 0) {%>
+			<div id="tableContainer">
+			<h1>Lista de pedidos</h1>
+			<table id="tabela">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Peca</th>
+						<th>Quantidade</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% for(int k=0; k < listaPeca.size(); k++){%>
+					<tr>
+						<td><%=listaPeca.get(k).getIdVenda()%></td>
+						<td>
+							<span> Id: </span><%=listaPeca.get(k).getIdPeca()%><br>
+							<span> Peça: </span><%=listaPeca.get(k).getNomePeca()%>
+						</td>
+						<td><%=listaPeca.get(k).getQuantidade()%></td>
+						<td class="buttonsTd">
+							<a><button class="remover" onclick="confirmar(<%=listaPeca.get(k).getIdPeca()%>, <%=listaPeca.get(k).getIdVenda()%>)">Remover</button></a>
+							<a href="relationVenda?idVenda=<%=listaPeca.get(k).getIdVenda()%>"><button class="product">Produtos</button></a>
+						</td>
+					</tr>
+					<%}%>
+				</tbody>
+			</table>
+		</div>
+		<% }else{%>
+			<div id="container">
+				<h1>Não há peças adicionadas</h1>
+				<p><img src="./images/pecas.png"/></p>
+				<a href="relationVenda?idVenda=<%=request.getAttribute("id")%>"><button class="product">Produtos</button></a>
+			</div>			
+		<%} %>
+	</div>
+</body>
+<script src="./scripts/validatorVenda.js"></script>
+<script>
+	//Validação da deleção de uma peça de um serviço
+	function confirmar(idPeca, idVenda){
+		 let resposta = confirm("Confirmar a exclusão dessa peça nessa venda?" );
+		 if(resposta === true){
+			 window.location.href= "deleteRelationVenda?idVenda=" + idVenda + "&idPeca=" + idPeca;
+		 }
+	}
+</script>
+</html>
