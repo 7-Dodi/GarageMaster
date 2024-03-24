@@ -1,5 +1,6 @@
 package br.com.GarageMaster.logica.venda;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +34,8 @@ public class CreatedRelationVenda implements Logica {
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			RequestDispatcher rd = req.getRequestDispatcher("/erroRuntime.html");
+	        rd.forward(req, res);
 		}
 		
 		res.sendRedirect("relationVenda?idVenda="+idVenda);
